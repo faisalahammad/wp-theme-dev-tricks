@@ -90,3 +90,12 @@ function philosophy_pagination() {
 	echo wp_kses_post( $links );
 }
 ```
+
+<hr>
+
+- Total Posts in current Category
+```php
+$category = get_queried_object();
+$total_post = $category->count;
+echo $total_post;
+```
