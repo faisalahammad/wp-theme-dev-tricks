@@ -59,6 +59,16 @@ if ( 'page-templates/landing.php' != $current_page_template ) {
 
 <hr>
 
+### Show CPT Title on CSF Group Metabox
+```php
+// Add this code on csf->fields->group->group.php (line 57)
+if ( 'section' == $field_id ) {
+$title = get_the_title($this->value[$key][$field_id]);
+}
+```
+
+<hr>
+
 ### Codestar metabox data print
 ```php
 $variable_name = get_post_meta( get_the_ID(), 'page-metabox', true );
