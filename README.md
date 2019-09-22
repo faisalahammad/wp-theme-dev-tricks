@@ -69,6 +69,20 @@ $title = get_the_title($this->value[$key][$field_id]);
 
 <hr>
 
+### Query all page sections on Landing page
+```php
+$mark_sections = get_post_meta( get_the_ID(), 'mark-page-section', true );
+if ( isset( $mark_sections['sections'] ) ) {
+	foreach ( $mark_sections['sections'] as $mark_section ) {
+		$mark_section_meta = get_post_meta( $mark_section['section'], 'mark-section-type', true );
+		$mark_section_type = $mark_section_meta['section-type'];
+		get_template_part( "section-template/{$mark_section_type}" );
+	}
+}
+```
+
+<hr>
+
 ### Codestar metabox data print
 ```php
 $variable_name = get_post_meta( get_the_ID(), 'page-metabox', true );
