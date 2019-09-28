@@ -163,3 +163,10 @@ $category = get_queried_object();
 $total_post = $category->count;
 echo $total_post;
 ```
+
+<hr>
+
+### Get the Author Page link
+```php
+<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>
+```
