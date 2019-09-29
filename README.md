@@ -170,3 +170,10 @@ echo $total_post;
 ```php
 <?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>
 ```
+
+<hr>
+
+### Remove **srcset** or disable responsive image
+```php
+add_filter('wp_calculate_image_srcset_meta', '__return_empty_array');
+```
