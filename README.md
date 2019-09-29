@@ -177,3 +177,14 @@ echo $total_post;
 ```php
 add_filter('wp_calculate_image_srcset_meta', '__return_empty_array');
 ```
+
+<hr>
+
+### Add Class to Footer Nav menu ul
+```php
+function mark_widget_nav_menu_args($nav_menu_args, $nav_menu, $args, $instance) {
+	$nav_menu_args['menu_class'] = 'list-unstyled short-links';
+	return $nav_menu_args;
+}
+add_filter('widget_nav_menu_args', 'mark_widget_nav_menu_args', 10, 4);
+```
