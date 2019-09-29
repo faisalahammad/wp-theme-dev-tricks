@@ -188,3 +188,48 @@ function mark_widget_nav_menu_args($nav_menu_args, $nav_menu, $args, $instance) 
 }
 add_filter('widget_nav_menu_args', 'mark_widget_nav_menu_args', 10, 4);
 ```
+
+<hr>
+
+### Add class on menu li
+```php
+function mark_menu_css_class( $classes, $item, $args ) {
+	if ( 'top-menu' === $args->theme_location ) {
+		$classes[] = "nav-item";
+	}
+
+	return $classes;
+}
+
+add_filter( 'nav_menu_css_class', 'mark_menu_css_class', 10, 3 );
+```
+
+<hr>
+
+### Add dynamic section ID to section
+```php
+<section id="<?php echo get_post_field( 'post_name', $mark_section['section'] ); ?>" class="client-section">
+```
+
+<hr>
+
+### One Page theme section url replace to #sectionName
+```php
+function mark_change_nav_menu_link( $menus ) {
+	$string_to_replace = home_url( '/' ) . 'section/';
+	if ( is_front_page() ) {
+		foreach ( $menus as $menu ) {
+			$new_url = str_replace( $string_to_replace, '#', $menu->url );
+
+			if ( $new_url != $menu->url ) {
+				$new_url = rtrim( $new_url, '/' );
+			}
+			$menu->url = $new_url;
+		}
+	}
+
+	return $menus;
+}
+
+add_filter( 'wp_nav_menu_objects', 'mark_change_nav_menu_link' );
+```
