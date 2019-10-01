@@ -246,3 +246,34 @@ function verum_remove_thumbnail_dimensions( $html ) {
 
 add_filter( 'post_thumbnail_html', 'verum_remove_thumbnail_dimensions' );
 ```
+
+<hr>
+
+### Show Older/Newer Pagination based on condition
+```php
+<?php
+$verum_prev_post_link = get_previous_posts_link();
+if ( ! $verum_prev_post_link ) :
+	?>
+    <div class="older full">
+		<?php next_posts_link( __( 'Older Posts >', 'verum' ) ); ?>
+    </div>
+<?php else: ?>
+    <div class="older">
+		<?php next_posts_link( __( 'Older Posts >', 'verum' ) ); ?>
+    </div>
+<?php endif; ?>
+
+<?php
+$verum_next_post_link = get_next_posts_link();
+if ( ! $verum_next_post_link ) :
+	?>
+    <div class="newer full">
+		<?php previous_posts_link( __( '< Newer Posts' ) ); ?>
+    </div>
+<?php else: ?>
+    <div class="newer">
+		<?php previous_posts_link( __( '< Newer Posts' ) ); ?>
+    </div>
+<?php endif; ?>
+```
