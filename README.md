@@ -233,3 +233,16 @@ function mark_change_nav_menu_link( $menus ) {
 
 add_filter( 'wp_nav_menu_objects', 'mark_change_nav_menu_link' );
 ```
+
+<hr>
+
+### Remove static image size from post thumbnails (html)
+```php
+function verum_remove_thumbnail_dimensions( $html ) {
+	$html = preg_replace( '/(width|height)=\"\d*\"\s/', "", $html );
+
+	return $html;
+}
+
+add_filter( 'post_thumbnail_html', 'verum_remove_thumbnail_dimensions' );
+```
