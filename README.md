@@ -277,3 +277,19 @@ if ( ! $verum_next_post_link ) :
     </div>
 <?php endif; ?>
 ```
+
+<hr>
+
+### Get the post categories
+```php
+<?php
+$verum_categories = get_the_category();
+if ( $verum_categories ):
+	echo '<ul class="cat">';
+	foreach ( $verum_categories as $verum_category ) {
+		printf( '<li><a href="%s">%s</a></li>', get_category_link( $verum_category ), $verum_category->name );
+	}
+	echo '</ul>';
+	?>
+<?php endif; ?>
+```
