@@ -293,3 +293,36 @@ if ( $verum_categories ):
 	?>
 <?php endif; ?>
 ```
+
+<hr>
+
+### Add Social Profile on the user profile (dashboard)
+```php
+function verum_user_contactmethods( $cm ) {
+	$cm['facebook']    = __( 'Facebook', 'verum' );
+	$cm['twitter']     = __( 'Twitter', 'verum' );
+	$cm['google-plus'] = __( 'Google Plus', 'verum' );
+	$cm['pinterest']   = __( 'Pinterest', 'verum' );
+
+	return $cm;
+}
+
+add_filter( 'user_contactmethods', 'verum_user_contactmethods' );
+
+// Show those social links on the frontend
+<?php $verum_user_cm = wp_get_user_contact_methods(); ?>
+<div class="s-links">
+	<?php
+	foreach ( $verum_user_cm as $verum_ucm_key => $verum_ucm_value ) :
+		$verum_cm_link = get_user_meta( get_the_author_meta( 'ID' ), $verum_ucm_key, true );
+		if ( $verum_cm_link ) :
+			?>
+            <a href="<?php echo esc_url( $verum_cm_link ); ?>" target="_blank">
+                <i class="fa fa-<?php echo esc_attr( $verum_ucm_key ); ?>"></i>
+            </a>
+		<?php
+		endif;
+	endforeach;
+	?>
+</div>
+```
