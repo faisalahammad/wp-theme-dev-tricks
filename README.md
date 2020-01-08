@@ -361,3 +361,10 @@ function custom_book_column( $column, $post_id ) {
     }
 }
 ```
+
+---
+
+### Show Post Excerpt / limited number of words
+```php
+echo wp_trim_words( get_the_content(), 50, false );
+```
