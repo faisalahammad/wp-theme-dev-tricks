@@ -368,3 +368,70 @@ function custom_book_column( $column, $post_id ) {
 ```php
 echo wp_trim_words( get_the_content(), 50, false );
 ```
+
+---
+
+### Show CSF metabox based on Post Types
+```php
+function admin_backend_scripts() {
+	if ( get_post_type() == 'post' ) :
+		?>
+        <script>
+            (function ($) {
+                $(document).ready(function () {
+                    $('#post_video').hide();
+                    $('#post_audio').hide();
+                    $('#post_gallery').hide();
+                    $('#post_quote').hide();
+
+                    let post_ID = $('input[class="post-format"]:checked').attr('id');
+
+                    if (post_ID === 'post-format-video') {
+                        $('#post_video').show();
+                    }else {
+                        $('#post_video').hide();
+                    }
+
+                    if (post_ID === 'post-format-audio') {
+                        $('#post_audio').show();
+                    }else {
+                        $('#post_audio').hide();
+                    }
+
+                    if (post_ID === 'post-format-gallery') {
+                        $('#post_gallery').show();
+                    }else {
+                        $('#post_gallery').hide();
+                    }
+
+                    $('.post-format').change(function () {
+                        let post_ID = $('input[class="post-format"]:checked').attr('id');
+
+                        if (post_ID === 'post-format-video') {
+                            $('#post_video').show();
+                        }else {
+                            $('#post_video').hide();
+                        }
+
+                        if (post_ID === 'post-format-audio') {
+                            $('#post_audio').show();
+                        }else {
+                            $('#post_audio').hide();
+                        }
+
+                        if (post_ID === 'post-format-gallery') {
+                            $('#post_gallery').show();
+                        }else {
+                            $('#post_gallery').hide();
+                        }
+
+                    });
+                });
+            })(jQuery);
+        </script>
+	<?php
+	endif;
+}
+
+add_action( 'admin_print_scripts', 'admin_backend_scripts', 100 );
+```
