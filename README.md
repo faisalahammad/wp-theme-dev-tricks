@@ -8,7 +8,22 @@ Disable `config` files from `cs-framework.php` file.
 ### Useful Tricks
 Find the Page Template: `_wp_page_template`
 
-<hr>
+---
+
+### Limit Search Results For Specific Post Types
+```php
+function searchfilter($query) {
+    if ($query->is_search && !is_admin() ) {
+        $query->set('post_type',array('post','page'));
+    }
+ 
+	return $query;
+}
+ 
+add_filter('pre_get_posts','searchfilter');
+```
+
+---
 
 ### Get the Page or Post ID
 ```php
@@ -371,7 +386,7 @@ echo wp_trim_words( get_the_content(), 50, false );
 
 ---
 
-### Show CSF metabox based on Post Types
+### Show CMB2 metabox based on Post Types
 ```php
 function admin_backend_scripts() {
 	if ( get_post_type() == 'post' ) :
@@ -434,4 +449,103 @@ function admin_backend_scripts() {
 }
 
 add_action( 'admin_print_scripts', 'admin_backend_scripts', 100 );
+```
+
+---
+
+## WordPress Widget Development
+
+### Latest Posts
+```php
+// First Register widget on widgets_init hook
+register_widget( 'cometpro_latest_post' );
+
+// Then write those code avobe the hook
+class cometpro_latest_post extends WP_Widget {
+	public function __construct() {
+		parent::__construct( 'cometpro_latest_post', __( 'Comet Latest Post', 'cometpro' ), array(
+			'description' => __( 'Comet top 5 latest post', 'cometpro' )
+		) );
+	}
+
+	public function widget( $args, $instance ) {
+		$title = $instance['title'];
+
+		echo $args['before_widget'];
+		echo $args['before_title'];
+		echo $title;
+		echo $args['after_title'];
+		?>
+        <ul class="nav">
+			<?php
+			$latest_post = new WP_Query( array(
+				'post_type'     => 'post',
+				'posts_per_page' => 5
+			) );
+			while ( $latest_post->have_posts() ) : $latest_post->the_post();
+				?>
+                <li>
+                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?><i class="ti-arrow-right"></i><span><?php echo get_the_date( 'F d, Y' ); ?></span></a>
+                </li>
+			<?php
+			endwhile;
+			wp_reset_query();
+			?>
+        </ul>
+		<?php
+		echo $args['after_widget'];
+	}
+
+	public function form( $instance ) {
+		$title = $instance['title'];
+		?>
+        <p>
+            <lable for=""><?php _e( 'Title:', 'cometpro' ); ?></lable>
+            <input type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>" class="widefat">
+        </p>
+		<?php
+	}
+}
+```
+
+---
+
+### Search Box
+```php
+// First Register widget on widgets_init hook
+register_widget( 'cometpro_search' );
+
+// Then write those code avobe the hook
+class cometpro_search extends WP_Widget {
+	public function __construct() {
+		parent::__construct( 'cometpro_search', __( 'Comet Search', 'cometpro' ), array(
+			'description' => __( 'Comet Search Box', 'cometpro' )
+		) );
+	}
+
+	public function widget( $args, $instance ) {
+		$title = $instance['title'];
+
+		echo $args['before_widget'];
+		echo $args['before_title'];
+		echo $title;
+		echo $args['after_title'];
+		?>
+        <form method="GET">
+            <input type="text" name="s" placeholder="Search.." class="form-control">
+        </form>
+		<?php
+		echo $args['after_widget'];
+	}
+
+	public function form( $instance ) {
+		$title = $instance['title'];
+		?>
+        <p>
+            <lable for=""><?php _e( 'Title:', 'cometpro' ); ?></lable>
+            <input type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $title; ?>" class="widefat">
+        </p>
+		<?php
+	}
+}
 ```
